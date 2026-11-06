@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* **A Samsung device Samsung Health did not list is no longer described as the phone**: a record whose device id was missing from the connected-device list (a watch since unpaired, a ring no group returned) was sent with the phone's own manufacturer, model and name and typed `phone`, so the backend labelled the watch's data as the handset's. Its device id is still sent; its name, model, manufacturer and type are now null. `"Unknown"` placeholders are sent as null rather than as the word.
+
 ## 0.13.1
 
 * **Partial health permissions**: granting some data types is enough. Sync uploads those types and the example shows Start Sync after that screen, without a second Authorize tap. The permission screen opens on the main thread. Opening it from the Health Connect callback thread makes Android cancel the request and report no grants. On Android 14+ data types are requested separately from background and history, and an instant empty platform result falls back to the Health Connect app screen. When every requested data type is already granted, the permission screen stays closed.
