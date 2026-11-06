@@ -1043,19 +1043,8 @@ class SamsungHealthManager(
 
     // ---- source helper ----
 
-    private fun buildUnifiedSource(raw: HealthDataRecord): UnifiedSource = UnifiedSource(
-        appId = raw.dataSource.appId,
-        deviceId = raw.dataSource.deviceId,
-        deviceName = raw.device.name,
-        deviceManufacturer = raw.device.manufacturer,
-        deviceModel = raw.device.model,
-        deviceType = DeviceTypeMapper.fromSamsungDeviceType(
-            raw.device.deviceType,
-            raw.device.name,
-            raw.device.model,
-        ),
-        recordingMethod = null
-    )
+    private fun buildUnifiedSource(raw: HealthDataRecord): UnifiedSource =
+        samsungUnifiedSource(raw.dataSource, raw.device)
 
     // -----------------------------------------------------------------------
     // Samsung SDK internals
