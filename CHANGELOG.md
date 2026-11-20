@@ -4,6 +4,14 @@
 
 * **A Samsung device Samsung Health did not list is no longer described as the phone**: a record whose device id was missing from the connected-device list (a watch since unpaired, a ring no group returned) was sent with the phone's own manufacturer, model and name and typed `phone`, so the backend labelled the watch's data as the handset's. Its device id is still sent; its name, model, manufacturer and type are now null. `"Unknown"` placeholders are sent as null rather than as the word.
 
+## 0.13.3
+
+* **Release builds with AGP 9 no longer crash on start**: apps built with Android Gradle Plugin 9.0 (R8 9.0) and `isMinifyEnabled = true` crashed before the first frame with `Unable to get provider androidx.startup.InitializationProvider ... Failed to create an instance of class androidx.work.impl.WorkDatabase`. WorkManager 2.9.0 pulled Room 2.5.0, whose bundled rule `-keep class * extends androidx.room.RoomDatabase` has no member spec, and R8 9.0 removes the no-arg constructor of `WorkDatabase_Impl` that Room calls by reflection. R8 8.x (AGP 8.9.1 checked) kept it, so AGP 8 apps were not affected. WorkManager is now 2.12.0 (Room 2.7.0, which keeps the constructor), and `consumer-rules.pro` keeps `RoomDatabase` subclasses' no-arg constructors and `androidx.room.Room` for apps whose dependency graph resolves an older Room. Apps that added these keep rules themselves can drop them after upgrading.
+
+## 0.13.2
+
+* **Health Connect authorization no longer fails after the data grant**: when the user granted data types, `requestAuthorization` returns `true` even if the follow-up background/history request fails. Before, on Android 14+ without the Health Connect app package, that request returned instantly, the fallback sent `androidx.health.ACTION_REQUEST_PERMISSIONS` to `com.google.android.apps.healthdata`, the launch threw `ActivityNotFoundException` and the whole call returned `false` ("Authorization denied"). Background and history read are now requested only when `HealthConnectClient.features` reports them available, and the Health Connect app screen fallback runs only when an installed activity resolves its intent.
+
 ## 0.13.1
 
 * **Partial health permissions**: granting some data types is enough. Sync uploads those types and the example shows Start Sync after that screen, without a second Authorize tap. The permission screen opens on the main thread. Opening it from the Health Connect callback thread makes Android cancel the request and report no grants. On Android 14+ data types are requested separately from background and history, and an instant empty platform result falls back to the Health Connect app screen. When every requested data type is already granted, the permission screen stays closed.

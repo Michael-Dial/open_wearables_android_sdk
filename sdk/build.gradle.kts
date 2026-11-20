@@ -52,7 +52,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     // WorkManager for background sync
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.work:work-runtime-ktx:2.12.0")
 
     // Lifecycle for detecting app foreground/background
     implementation("androidx.lifecycle:lifecycle-process:2.7.0")
@@ -73,7 +73,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 }
 
-val publishVersion = (findProperty("localPublishVersion") as String?) ?: "0.13.1"
+val publishVersion = (findProperty("localPublishVersion") as String?) ?: "0.13.3"
 
 afterEvaluate {
     publishing {
